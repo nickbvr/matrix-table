@@ -1,10 +1,17 @@
-import { useState, useEffect } from 'react';
-import { Table, TableBody } from '@mui/material';
-import AverageSumRow from './components/AverageSumRow';
-import TableContent from './components/TableContent';
-import { getNewAverageSum, getNewMatrixArray, getNewMatrixRow, getNewSum } from './utils';
+import { useState } from 'react';
+import { TableBody } from '@mui/material';
+import AverageValueRow from './components/AverageValueRow';
+import MatrixTable from './components/MatrixTable';
+import CreateForm from './components/CreateForm';
+import {
+    getNearestNumbers,
+    getNewAverageSum,
+    getNewMatrixArray,
+    getNewMatrixRow,
+    getNewSum,
+} from './utils';
 import { VALUE_REGEX_CHANGE } from './constants';
-import CreateTable from './components/CreateTable';
+import { TableWrapper } from './App.styles';
 
 const App = () => {
     const [inputValues, setInputValues] = useState({ rows: '', columns: '' });
@@ -13,11 +20,6 @@ const App = () => {
     const [columnAverage, setColumnAverage] = useState([]);
     const [nearestValues, setNearestValues] = useState([]);
     const [activeRow, setActiveRow] = useState('');
-
-    useEffect(() => {
-        setRowSum(getNewSum(matrix));
-        setColumnAverage(getNewAverageSum(matrix));
-    }, [matrix]);
 
     const handleChangeValues = (e) => {
         let value = e.target.value;
@@ -28,55 +30,64 @@ const App = () => {
 
     const handleCreateTable = () => {
         setInputValues({ rows: '', columns: '' });
-        setMatrix(getNewMatrixArray(inputValues));
+        const initialMatrix = getNewMatrixArray(inputValues);
+        setRowSum(getNewSum(initialMatrix));
+        setColumnAverage(getNewAverageSum(initialMatrix));
+        setMatrix(initialMatrix);
     };
 
-    const handleIncrementAmount = (idx, { id, amount }) => {
-        matrix[idx].find((obj) => obj.id === id).amount = amount += 1;
+    const handleIncrementAmount = (idx, elemId) => {
+        const foundElem = matrix[idx].find(({ id }) => id === elemId);
+        foundElem.amount += 1;
+        handleHoverAmount(foundElem.amount);
+        setRowSum(getNewSum(matrix));
+        setColumnAverage(getNewAverageSum(matrix));
         setMatrix([...matrix]);
     };
 
     const handleRemoveRow = (idx) => {
-        setMatrix(matrix.filter((_, i) => i !== idx));
+        const newMatrix = matrix.filter((_, i) => i !== idx);
+        setMatrix(newMatrix);
+        setRowSum(getNewSum(newMatrix));
+        setColumnAverage(getNewAverageSum(newMatrix));
     };
 
     const handleAddRow = () => {
-        setMatrix([...matrix, getNewMatrixRow(matrix)]);
+        const newMatrix = [...matrix, getNewMatrixRow(matrix)];
+        setMatrix(newMatrix);
+        setRowSum(getNewSum(newMatrix));
+        setColumnAverage(getNewAverageSum(newMatrix));
     };
 
-    const getNearestNumbers = (num) => {
-        const elems = [];
-        matrix.map((row) => row.map((obj) => elems.push(obj.amount)));
-        const left = Math.max(...elems.filter((el) => el < num));
-        const right = Math.min(...elems.filter((el) => el > num));
-        setNearestValues([left, right]);
+    const handleHoverAmount = (num) => {
+        setNearestValues(getNearestNumbers(matrix, num));
     };
 
     return (
         <div>
             {!matrix.length ? (
-                <CreateTable
-                    inputValues={inputValues}
-                    handleChangeValues={handleChangeValues}
-                    handleCreateTable={handleCreateTable}
+                <CreateForm
+                    values={inputValues}
+                    onChange={handleChangeValues}
+                    onSubmit={handleCreateTable}
                 />
             ) : (
-                <Table sx={{ width: 'fit-content' }}>
+                <TableWrapper>
                     <TableBody>
-                        <TableContent
+                        <MatrixTable
                             matrix={matrix}
                             activeRow={activeRow}
                             nearestValues={nearestValues}
                             rowSum={rowSum}
-                            handleRemoveRow={handleRemoveRow}
-                            handleIncrementAmount={handleIncrementAmount}
-                            getNearestNumbers={getNearestNumbers}
+                            onRemove={handleRemoveRow}
+                            onIncrement={handleIncrementAmount}
+                            onHover={handleHoverAmount}
                             setNearestValues={setNearestValues}
                             setActiveRow={setActiveRow}
                         />
-                        <AverageSumRow columnAverage={columnAverage} handleAddRow={handleAddRow} />
+                        <AverageValueRow values={columnAverage} onAdd={handleAddRow} />
                     </TableBody>
-                </Table>
+                </TableWrapper>
             )}
         </div>
     );

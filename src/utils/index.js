@@ -17,15 +17,15 @@ export const getNewMatrixArray = ({ rows, columns }) => {
 
 export const getNewMatrixRow = (arr) => {
     let newRow = [];
-    for (let i = 0; i < arr.length; i++) {
-        for (let j = 0; j < arr[i].length; j++) {
-            const newObj = {
-                id: getUniqueId(),
-                amount: Math.floor(Math.random() * (999 - 100 + 1) + 100),
-            };
-            newRow[j] = newObj;
-        }
-    }
+    arr.map((row) =>
+        row.map(
+            (_, objIdx) =>
+                (newRow[objIdx] = {
+                    id: getUniqueId(),
+                    amount: Math.floor(Math.random() * (999 - 100 + 1) + 100),
+                }),
+        ),
+    );
     return newRow;
 };
 
@@ -36,13 +36,21 @@ export const getNewSum = (arr) => {
 export const getNewAverageSum = (arr) => {
     return arr.reduce(
         (acc, row) =>
-            row.map((obj, objIdx) =>
-                Math.round((acc[objIdx] = (acc[objIdx] || 0) + obj.amount / arr.length)),
+            row.map(({ amount }, objIdx) =>
+                Math.round((acc[objIdx] = (acc[objIdx] || 0) + amount / arr.length)),
             ),
         [],
     );
 };
 
-export const getPercentageValue = ({ amount }, sum) => {
+export const getPercentageValue = (amount, sum) => {
     return ((amount / sum) * 100).toFixed(1) + '%';
+};
+
+export const getNearestNumbers = (arr, value) => {
+    const elems = [];
+    arr.map((row) => row.map(({ amount }) => elems.push(amount)));
+    const left = Math.max(...elems.filter((el) => el < value));
+    const right = Math.min(...elems.filter((el) => el > value));
+    return [left, right];
 };
