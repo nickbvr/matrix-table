@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
     * {
@@ -7,4 +7,11 @@ export const GlobalStyles = createGlobalStyle`
         padding: 0;
         user-select: none;
     }
+`;
+
+export const AppWrapper = styled.div`
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;

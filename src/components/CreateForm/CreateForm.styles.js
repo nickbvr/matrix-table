@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 export const FormWrapper = styled(Container)`
     && {
-        height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
