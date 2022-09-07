@@ -1,8 +1,14 @@
-import { memo, useCallback } from 'react';
+import { useCallback, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Tooltip } from '@mui/material';
 import { AddRounded, DeleteOutlineRounded, ClearRounded } from '@mui/icons-material';
 import { setActiveRow, setNearestValues, updateState, setMatrix } from '../../store/matrixSlice';
-import { getNearestNumbers, getNewMatrixRow, getPercentageValue } from '../../utils';
+import {
+    getIncrementedMatrix,
+    getNearestNumbers,
+    getNewMatrixRow,
+    getPercentageValue,
+} from '../../utils';
 import {
     StyledTable,
     StyledTableBody,
@@ -14,7 +20,6 @@ import {
     AverageValueCell,
     ClearMatrix,
 } from './MatrixTable.styles';
-import { Tooltip } from '@mui/material';
 
 const MatrixTable = memo(({ matrix }) => {
     const { activeRow, rowSum, nearestValues, averageValues } = useSelector(({ matrix }) => matrix);
@@ -22,13 +27,7 @@ const MatrixTable = memo(({ matrix }) => {
 
     const handleIncrement = useCallback(
         (idx, cellId) => () => {
-            const newMatrix = matrix.map((row) =>
-                row.map((obj) =>
-                    obj.id === cellId
-                        ? { ...obj, amount: obj.amount < 999 ? obj.amount + 1 : obj.amount }
-                        : obj,
-                ),
-            );
+            const newMatrix = getIncrementedMatrix(matrix, cellId);
             const value = newMatrix[idx].find(({ id }) => id === cellId).amount;
             dispatch(setNearestValues(getNearestNumbers(newMatrix, value)));
             dispatch(updateState(newMatrix));

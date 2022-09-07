@@ -1,6 +1,6 @@
-import { CreateForm, MatrixTable } from './components';
 import { useSelector } from 'react-redux';
-import { AppWrapper } from './Global.styles';
+import { CreateForm, MatrixTable } from './components';
+import { AppWrapper } from './App.styles';
 
 const App = () => {
     const { matrix } = useSelector(({ matrix }) => matrix);

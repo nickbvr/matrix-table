@@ -29,21 +29,21 @@ const CreateForm = () => {
     return (
         <FormWrapper>
             <TextField
-                value={rows}
-                onChange={handleChange}
-                onKeyDown={handleKeySubmit}
                 name='rows'
                 label='rows'
                 autoFocus
+                value={rows}
+                onChange={handleChange}
+                onKeyDown={handleKeySubmit}
             />
             <TextField
+                name='columns'
+                label='columns'
                 value={columns}
                 onChange={handleChange}
                 onKeyDown={handleKeySubmit}
-                name='columns'
-                label='columns'
             />
-            <Button onClick={handleSubmit} disabled={!(rows && columns)} variant='contained'>
+            <Button variant='contained' disabled={!(rows && columns)} onClick={handleSubmit}>
                 Create
             </Button>
         </FormWrapper>

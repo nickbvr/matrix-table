@@ -49,3 +49,13 @@ export const getNearestNumbers = (matrix, amount) => {
     const right = Math.min(...elems.filter((el) => el > amount));
     return [left, right];
 };
+
+export const getIncrementedMatrix = (matrix, cellId) => {
+    return matrix.map((row) =>
+        row.map((obj) =>
+            obj.id === cellId
+                ? { ...obj, amount: obj.amount < 999 ? obj.amount + 1 : obj.amount }
+                : obj,
+        ),
+    );
+};
