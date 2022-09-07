@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Table, TableCell, TableRow } from '@mui/material';
+import { Table, TableBody, TableCell, TableRow } from '@mui/material';
 
 export const StyledTable = styled(Table)`
     && {
@@ -11,7 +11,7 @@ export const StyledTable = styled(Table)`
     }
 `;
 
-export const StyledTableBody = styled(Table)`
+export const StyledTableBody = styled(TableBody)`
     && {
         display: flex;
         flex-direction: column;
@@ -60,7 +60,7 @@ export const AmountCell = styled(TableCell)`
         box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
         border-radius: 8px;
         border-bottom: 0;
-        transition: 0.3s;
+        transition: 0.1s;
         cursor: pointer;
 
         &:hover {
@@ -70,6 +70,42 @@ export const AmountCell = styled(TableCell)`
 `;
 
 export const SumCell = styled(TableCell)`
+    && {
+        width: 50px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ececec;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        border-bottom: 0;
+    }
+`;
+
+export const AddCell = styled(TableCell)`
+    && {
+        width: 50px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        border-bottom: 0;
+        transition: 0.1s;
+        cursor: pointer;
+
+        &:hover {
+            svg {
+                fill: #1976d2;
+            }
+        }
+    }
+`;
+
+export const AverageValueCell = styled(TableCell)`
     && {
         width: 50px;
         height: 40px;

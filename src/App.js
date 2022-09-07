@@ -1,7 +1,10 @@
-import { MainPage } from './pages';
+import { CreateForm, MatrixTable } from './components';
+import { useSelector } from 'react-redux';
 
 const App = () => {
-    return <MainPage />;
+    const { matrix } = useSelector(({ matrix }) => matrix);
+
+    return <>{!matrix.length ? <CreateForm /> : <MatrixTable matrix={matrix} />}</>;
 };
 
 export default App;

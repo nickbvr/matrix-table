@@ -7,7 +7,7 @@ const getNewCell = () => {
     };
 };
 
-export const getNewMatrixArray = ({ rows, columns }) => {
+export const getNewMatrixTable = ({ rows, columns }) => {
     let newArr = [];
     for (let i = 0; i < rows; i++) {
         newArr[i] = [];
@@ -24,11 +24,11 @@ export const getNewMatrixRow = (matrix) => {
     return newRow;
 };
 
-export const getNewSum = (matrix) => {
+export const getNewRowSum = (matrix) => {
     return matrix.map((row) => row.reduce((acc, { amount }) => acc + amount, 0));
 };
 
-export const getNewAverageSum = (matrix) => {
+export const getNewAverageValues = (matrix) => {
     return matrix.reduce(
         (acc, row) =>
             row.map(({ amount }, objIdx) =>
