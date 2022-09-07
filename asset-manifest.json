@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/matrix-table/static/js/main.51ff2f2f.js",
+    "main.js": "/matrix-table/static/js/main.b191750a.js",
     "index.html": "/matrix-table/index.html",
-    "main.51ff2f2f.js.map": "/matrix-table/static/js/main.51ff2f2f.js.map"
+    "main.b191750a.js.map": "/matrix-table/static/js/main.b191750a.js.map"
   },
   "entrypoints": [
-    "static/js/main.51ff2f2f.js"
+    "static/js/main.b191750a.js"
   ]
 }
