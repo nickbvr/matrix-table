@@ -5,7 +5,7 @@ import App from './App';
 import { store } from './store';
 import theme, { GlobalStyles } from './styles';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
     <Provider store={store}>
         <ThemeProvider theme={theme}>

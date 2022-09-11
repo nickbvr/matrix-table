@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { FC, useState, KeyboardEvent, ChangeEvent, memo } from 'react';
+import { useAppDispatch } from '../../hooks';
 import { Button, TextField } from '@mui/material';
 import { updateState } from '../../store/matrixSlice';
 import { getNewMatrixTable } from '../../utils';
 import { VALUE_REGEX_CHANGE } from '../../constants';
 import { FormWrapper } from './CreateForm.styles';
 
-const CreateForm = () => {
+const CreateForm: FC = memo(() => {
     const [values, setValues] = useState({ rows: '', columns: '' });
     const { rows, columns } = values;
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         let value = e.target.value;
-        if (value === '' || VALUE_REGEX_CHANGE.test(value)) {
+        if (!value.length || VALUE_REGEX_CHANGE.test(value)) {
             setValues({ ...values, [e.target.name]: value });
         }
     };
@@ -24,7 +24,8 @@ const CreateForm = () => {
         dispatch(updateState(initialMatrix));
     };
 
-    const handleKeySubmit = (e) => rows && columns && e.key === 'Enter' && handleSubmit();
+    const handleKeySubmit = (e: KeyboardEvent) =>
+        rows && columns && e.key === 'Enter' && handleSubmit();
 
     return (
         <FormWrapper>
@@ -48,6 +49,6 @@ const CreateForm = () => {
             </Button>
         </FormWrapper>
     );
-};
+});
 
 export default CreateForm;

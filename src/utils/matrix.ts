@@ -1,4 +1,5 @@
 import { v4 as getUniqueId } from 'uuid';
+import { MatrixCell } from './../store/matrixSlice';
 
 const getNewCell = () => {
     return {
@@ -7,30 +8,30 @@ const getNewCell = () => {
     };
 };
 
-export const getNewMatrixTable = ({ rows, columns }) => {
-    let newArr = [];
-    for (let i = 0; i < rows; i++) {
+export const getNewMatrixTable = ({ rows, columns }: { rows: string; columns: string }) => {
+    let newArr: MatrixCell[][] = [];
+    for (let i = 0; i < Number(rows); i++) {
         newArr[i] = [];
-        for (let j = 0; j < columns; j++) {
+        for (let j = 0; j < Number(columns); j++) {
             newArr[i][j] = getNewCell();
         }
     }
     return newArr;
 };
 
-export const getNewMatrixRow = (matrix) => {
-    let newRow = [];
+export const getNewMatrixRow = (matrix: MatrixCell[][]) => {
+    let newRow: MatrixCell[] = [];
     matrix.map((row) => row.map((_, objIdx) => (newRow[objIdx] = getNewCell())));
     return newRow;
 };
 
-export const getNewRowSum = (matrix) => {
+export const getNewRowSum = (matrix: MatrixCell[][]) => {
     return matrix.map((row) => row.reduce((acc, { amount }) => acc + amount, 0));
 };
 
-export const getNewAverageValues = (matrix) => {
+export const getNewAverageValues = (matrix: MatrixCell[][]) => {
     return matrix.reduce(
-        (acc, row) =>
+        (acc: { [x: number]: number }, row: { amount: number }[]) =>
             row.map(({ amount }, objIdx) =>
                 Math.round((acc[objIdx] = (acc[objIdx] || 0) + amount / matrix.length)),
             ),
@@ -38,19 +39,19 @@ export const getNewAverageValues = (matrix) => {
     );
 };
 
-export const getPercentageValue = (amount, sum) => {
+export const getPercentageValue = (amount: number, sum: number) => {
     return ((amount / sum) * 100).toFixed(1) + '%';
 };
 
-export const getNearestNumbers = (matrix, amount) => {
-    const elems = [];
+export const getNearestNumbers = (matrix: MatrixCell[][], amount: number) => {
+    const elems: number[] = [];
     matrix.map((row) => row.map(({ amount }) => elems.push(amount)));
     const left = Math.max(...elems.filter((el) => el < amount));
     const right = Math.min(...elems.filter((el) => el > amount));
     return [left, right];
 };
 
-export const getIncrementedMatrix = (matrix, cellId) => {
+export const getIncrementedMatrix = (matrix: MatrixCell[][], cellId: string) => {
     return matrix.map((row) =>
         row.map((obj) =>
             obj.id === cellId

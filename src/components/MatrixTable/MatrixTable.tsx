@@ -1,8 +1,14 @@
-import { useCallback, memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC, useCallback, memo } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { Tooltip } from '@mui/material';
 import { AddRounded, DeleteOutlineRounded, ClearRounded } from '@mui/icons-material';
-import { setActiveRow, setNearestValues, updateState, setMatrix } from '../../store/matrixSlice';
+import {
+    setActiveRow,
+    setNearestValues,
+    updateState,
+    setMatrix,
+    MatrixCell,
+} from '../../store/matrixSlice';
 import {
     getIncrementedMatrix,
     getNearestNumbers,
@@ -21,29 +27,35 @@ import {
     ClearMatrix,
 } from './MatrixTable.styles';
 
-const MatrixTable = memo(({ matrix }) => {
-    const { activeRow, rowSum, nearestValues, averageValues } = useSelector(({ matrix }) => matrix);
-    const dispatch = useDispatch();
+interface MatrixTableProps {
+    matrix: MatrixCell[][];
+}
+
+const MatrixTable: FC<MatrixTableProps> = memo(({ matrix }) => {
+    const { activeRow, rowSum, nearestValues, averageValues } = useAppSelector(
+        ({ matrix }) => matrix,
+    );
+    const dispatch = useAppDispatch();
 
     const handleIncrement = useCallback(
-        (idx, cellId) => () => {
-            const newMatrix = getIncrementedMatrix(matrix, cellId);
-            const value = newMatrix[idx].find(({ id }) => id === cellId).amount;
-            dispatch(setNearestValues(getNearestNumbers(newMatrix, value)));
+        (idx: number, cellId: string) => () => {
+            const newMatrix: MatrixCell[][] = getIncrementedMatrix(matrix, cellId);
+            const foundCell = newMatrix[idx].find(({ id }) => id === cellId);
+            foundCell && dispatch(setNearestValues(getNearestNumbers(newMatrix, foundCell.amount)));
             dispatch(updateState(newMatrix));
         },
         [matrix, dispatch],
     );
 
     const handleHover = useCallback(
-        (amount) => () => {
+        (amount: number) => () => {
             dispatch(setNearestValues(getNearestNumbers(matrix, amount)));
         },
         [matrix, dispatch],
     );
 
     const handleRemove = useCallback(
-        (idx) => () => {
+        (idx: number) => () => {
             const newMatrix = matrix.filter((_, i) => i !== idx);
             dispatch(updateState(newMatrix));
         },
@@ -70,16 +82,16 @@ const MatrixTable = memo(({ matrix }) => {
                                     onClick={handleIncrement(rowIdx, id)}
                                     onMouseEnter={handleHover(amount)}
                                     onMouseLeave={() => dispatch(setNearestValues([]))}
-                                    nearest={+nearestValues.includes(amount)}
-                                    isactive={+(rowIdx === activeRow)}
+                                    nearest={Boolean(nearestValues.includes(amount))}
+                                    isactive={Boolean(String(rowIdx) === activeRow)}
                                     percent={getPercentageValue(amount, rowSum[rowIdx])}>
-                                    {rowIdx === activeRow
+                                    {String(rowIdx) === activeRow
                                         ? getPercentageValue(amount, rowSum[rowIdx])
                                         : amount}
                                 </AmountCell>
                             ))}
                             <SumCell
-                                onMouseEnter={() => dispatch(setActiveRow(rowIdx))}
+                                onMouseEnter={() => dispatch(setActiveRow(String(rowIdx)))}
                                 onMouseLeave={() => dispatch(setActiveRow(''))}>
                                 {rowSum[rowIdx]}
                             </SumCell>

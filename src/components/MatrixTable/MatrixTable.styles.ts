@@ -1,5 +1,11 @@
 import styled, { css } from 'styled-components';
 
+interface Props {
+    isactive: boolean;
+    percent: string;
+    nearest: boolean;
+}
+
 export const StyledTable = styled.table`
     ${({ theme: { colors, shadows } }) => css`
         && {
@@ -69,12 +75,11 @@ export const AmountCell = styled.td`
             border-bottom: 0;
             transition: 0.1s;
             cursor: pointer;
-            background-color: ${({ nearest }) => (nearest ? colors.blue : colors.white)};
-            color: ${({ nearest }) => (nearest ? colors.white : colors.black)};
-            background-image: ${({ isactive, percent }) =>
-                isactive
-                    ? `linear-gradient(0, ${colors.blue} ${percent}, ${colors.white} ${percent})`
-                    : 'none'};
+            background-color: ${({ nearest }: Props) => (nearest ? colors.blue : colors.white)};
+            color: ${({ nearest }: Props) => nearest && colors.white};
+            background-image: ${({ isactive, percent }: Props) =>
+                isactive &&
+                `linear-gradient(0, ${colors.blue} ${percent}, ${colors.white} ${percent})`};
 
             &:hover {
                 border: 2px solid ${colors.blue};
