@@ -10,9 +10,9 @@ const getNewCell = () => {
 
 export const getNewMatrixTable = ({ rows, columns }: { rows: string; columns: string }) => {
     let newArr: MatrixCell[][] = [];
-    for (let i = 0; i < Number(rows); i++) {
+    for (let i = 0; i < +rows; i++) {
         newArr[i] = [];
-        for (let j = 0; j < Number(columns); j++) {
+        for (let j = 0; j < +columns; j++) {
             newArr[i][j] = getNewCell();
         }
     }

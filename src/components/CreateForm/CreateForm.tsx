@@ -3,7 +3,7 @@ import { useAppDispatch } from '../../hooks';
 import { Button, TextField } from '@mui/material';
 import { updateState } from '../../store/matrixSlice';
 import { getNewMatrixTable } from '../../utils';
-import { VALUE_REGEX_CHANGE } from '../../constants';
+import { VALUE_REGEX_CHANGE, KEY_CODES } from '../../constants';
 import { FormWrapper } from './CreateForm.styles';
 
 const CreateForm: FC = memo(() => {
@@ -25,7 +25,7 @@ const CreateForm: FC = memo(() => {
     };
 
     const handleKeySubmit = (e: KeyboardEvent) =>
-        rows && columns && e.key === 'Enter' && handleSubmit();
+        rows && columns && e.key === KEY_CODES.enter && handleSubmit();
 
     return (
         <FormWrapper>

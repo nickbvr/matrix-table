@@ -82,16 +82,16 @@ const MatrixTable: FC<MatrixTableProps> = memo(({ matrix }) => {
                                     onClick={handleIncrement(rowIdx, id)}
                                     onMouseEnter={handleHover(amount)}
                                     onMouseLeave={() => dispatch(setNearestValues([]))}
-                                    nearest={Boolean(nearestValues.includes(amount))}
-                                    isactive={Boolean(String(rowIdx) === activeRow)}
+                                    nearest={!!nearestValues.includes(amount)}
+                                    isactive={!!(`${rowIdx}` === activeRow)}
                                     percent={getPercentageValue(amount, rowSum[rowIdx])}>
-                                    {String(rowIdx) === activeRow
+                                    {`${rowIdx}` === activeRow
                                         ? getPercentageValue(amount, rowSum[rowIdx])
                                         : amount}
                                 </AmountCell>
                             ))}
                             <SumCell
-                                onMouseEnter={() => dispatch(setActiveRow(String(rowIdx)))}
+                                onMouseEnter={() => dispatch(setActiveRow(`${rowIdx}`))}
                                 onMouseLeave={() => dispatch(setActiveRow(''))}>
                                 {rowSum[rowIdx]}
                             </SumCell>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Matrix table
 
 The app provides functionality for creating, manipulating of matrix.
@@ -19,6 +20,11 @@ The app provides functionality for creating, manipulating of matrix.
 - Hovering over a cell highlights the cells whose nearest value is closest to the value of the current cell.
 
 ## Available Scripts 
+=======
+[DEMO](https://nickbvr.github.io/matrix-table/)
+
+## Available Scripts
+>>>>>>> 19dead3 (Small changes)
 
 ### `yarn start`
 
