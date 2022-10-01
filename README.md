@@ -4,6 +4,8 @@ The app provides functionality for creating, manipulating of matrix.
 
 [DEMO](https://nickbvr.github.io/matrix-table/)
 
+![Screen Recording 2022-10-01 at 1 48 51 PM](https://user-images.githubusercontent.com/63242837/193406085-0c8840cf-3c64-4725-98b1-d4cec58cc33f.gif)
+
 ## Tools
 
 `TypeScript`, `React`, `Redux Toolkit`, `MUI5`, `Styled-components`
